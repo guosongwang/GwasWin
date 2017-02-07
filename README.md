@@ -1,5 +1,5 @@
 # GwasWin
-The script is used for creating sliding window and perform defined calculations for Genome-wide Association Study results. Right now, the script is very primary and can only create non-overlapping sliding window for beta value. More functions coming soon. 
+The script is used for creating sliding window and perform defined calculations for Genome-wide Association Study results. Right now, the script is very primary and can only create non-overlapping sliding window for beta value. Currently only support bovine genome (UMD3.1.x). More functions coming soon. 
 
 # Installation
 ## Running Environment
