@@ -25,3 +25,9 @@ Below is an example of handling Gemma results. I defined the window size as 2Mb.
 ```
 python /my/path/GwasWin.py -s 2000000 -o /my/output/path/ /my/input/path/test.assoc
 ```
+# Results
+Four columns will be generated:
+```
+chromosome  window_start  window_end  value
+```
+One thing should be noticed is that, the result hasn't been sorted, yet. 
