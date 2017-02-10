@@ -31,3 +31,6 @@ Four columns will be generated:
 chromosome  window_start  window_end  value
 ```
 One thing should be noticed is that, the result hasn't been sorted, yet. 
+
+# Updates
+02.10.2017 Adjusted the average value calculation part. Added few code annotations in original code.
