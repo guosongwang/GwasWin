@@ -23,9 +23,12 @@ class GwasWin:
 		chromosomes = {}
 
 		for key in length.keys():
-			bin_total = (length[key] / window) + 2
+			# Integer divided by integer will give you only the integer part. Plus one to make sure the count is right.
+			bin_total = (length[key] / window) + 1
 			chromosomes[key] = {}
-			for i in range(1, bin_total):
+			# The 'stop' argument in function range() will let python generate a list of number up to, but not including
+			# the number you specify for 'stop' argument. That's why we plus 1 again in the following for loop.
+			for i in range(1, bin_total + 1):
 				bin_tag = 'bin' + str(i)
 				chromosomes[key][bin_tag] = {}
 				chromosomes[key][bin_tag]['beta_list'] = []
@@ -48,8 +51,12 @@ class GwasWin:
 
 		for chrom in chromosomes:
 			for win in chromosomes[chrom]:
-				chromosomes[chrom][win]['beta_avg'] = sum(chromosomes[chrom][win]['beta_list']) / (
-					len(chromosomes[chrom][win]['beta_list']) + 1)
+				# Key in chromosomes[chrom][win] is a list of beta_values corresponded to SNPs in that particular window.
+				# len(chromosomes[chrom][win]['beta_list'] is returning you the number of SNPs in that window.
+				if len(chromosomes[chrom][win]['beta_list']) != 0:
+					chromosomes[chrom][win]['beta_avg'] = sum(chromosomes[chrom][win]['beta_list']) / (len(chromosomes[chrom][win]['beta_list']) + 1)
+				else:
+					chromosomes[chrom][win]['beta_avg'] = 0
 				chromosomes[chrom][win]['start'] = int(win.lstrip('bin')) * window
 				chromosomes[chrom][win]['end'] = ((int(win.lstrip('bin')) + 1) * window) - 1
 				if chromosomes[chrom][win]['end'] >= length[chrom]:
@@ -57,8 +64,7 @@ class GwasWin:
 				else:
 					pass
 
-				print>>self.output, str(chrom) + '\t' + str(chromosomes[chrom][win]['start']) + '\t' + str(
-					chromosomes[chrom][win]['end']) + '\t' + str(chromosomes[chrom][win]['beta_avg'])
+				print>>self.output, str(chrom) + '\t' + str(chromosomes[chrom][win]['start']) + '\t' + str(chromosomes[chrom][win]['end']) + '\t' + str(chromosomes[chrom][win]['beta_avg'])
 
 		print 'Calculation done. Job was finished! '
 
@@ -72,7 +78,10 @@ def main():
 	parser.add_option('-o', '--output_path', action='store', type='string', dest='output', help='Define output path.')
 	parser.add_option('-s', '--size_window', action='store', type='int', dest='size', help='Define window size.')
 	(options, args) = parser.parse_args()
-	GwasWin(options).gwas_sliding_window(options)
+	if options.size and options.output:
+		GwasWin(options).gwas_sliding_window(options)
+	else:
+		print 'Missing arguments. Please submit all required arguments. '
 
 
 if __name__ == '__main__':
